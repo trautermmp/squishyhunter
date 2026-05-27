@@ -212,7 +212,7 @@ app.get("/", (_req, res) => {
 });
 
 app.get("/health", (_req, res) => {
-  res.json({ status: "ok", ts: new Date().toISOString() });
+  res.json({ status: "ok", ts: new Date().toISOString(), v: 2 });
 });
 
 app.get("/api/products", (_req, res) => {
