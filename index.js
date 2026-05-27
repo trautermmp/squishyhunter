@@ -208,7 +208,7 @@ function dbRowToReport(row) {
 // ── Routes ───────────────────────────────────────────────────────────────────
 
 app.get("/", (_req, res) => {
-  res.sendFile(path.join(__dirname, "squishfinder-test.html"));
+  res.json({ status: "ok", app: "Squishy Hunter API" });
 });
 
 app.get("/health", (_req, res) => {
