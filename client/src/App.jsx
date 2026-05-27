@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { getReports, getProducts } from './api';
+import { getReports, getProducts, getSubmittedStores } from './api';
 import MapView from './components/MapView';
 import StoreSheet from './components/StoreSheet';
 import SightingCard from './components/SightingCard';
@@ -69,9 +69,7 @@ export default function App() {
 
   const fetchCommunityStores = useCallback(async (loc) => {
     try {
-      const params = loc ? `?lat=${loc.lat}&lng=${loc.lng}&radius=25` : '';
-      const res  = await fetch(`/api/stores/submitted${params}`);
-      const data = await res.json();
+      const data = await getSubmittedStores(loc ? { lat: loc.lat, lng: loc.lng } : {});
       setCommunityStores(data.stores || []);
     } catch { /* non-critical */ }
   }, []);

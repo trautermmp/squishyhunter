@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getStores, getProducts, getProductSuggestions, postReport } from '../api';
+import { getStores, getProducts, getProductSuggestions, postReport, submitStore } from '../api';
 
 const CHAIN_LABEL = {
   target:          'Target',
@@ -128,16 +128,12 @@ export default function PostSightingModal({ location, preselectedStore, onClose,
 
       // Auto-submit unlisted store for future map inclusion
       if (isOtherStore && form.otherStoreName.trim()) {
-        fetch('/api/stores/submit', {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name:  form.otherStoreName.trim(),
-            chain: form.otherStoreChain,
-            lat:   location?.lat ?? null,
-            lng:   location?.lng ?? null,
-          }),
-        }).catch(() => {});
+        submitStore({
+          name:  form.otherStoreName.trim(),
+          chain: form.otherStoreChain,
+          lat:   location?.lat ?? null,
+          lng:   location?.lng ?? null,
+        });
       }
 
       onPosted?.(data.report);

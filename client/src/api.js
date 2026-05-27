@@ -47,6 +47,21 @@ export async function getProductSuggestions() {
   return res.json();
 }
 
+export async function getSubmittedStores({ lat, lng, radius = 25 } = {}) {
+  const params = lat != null ? `?lat=${lat}&lng=${lng}&radius=${radius}` : '';
+  const res = await fetch(`${BASE}/api/stores/submitted${params}`);
+  if (!res.ok) return { stores: [] };
+  return res.json();
+}
+
+export async function submitStore(data) {
+  return fetch(`${BASE}/api/stores/submit`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  }).catch(() => {});
+}
+
 export async function geocodeZip(zip) {
   const url = `https://nominatim.openstreetmap.org/search?postalcode=${encodeURIComponent(zip)}&country=US&format=json&limit=1`;
   const res = await fetch(url, { headers: { 'User-Agent': 'SquishyHunter/1.0' } });
