@@ -1,0 +1,392 @@
+[
+  {
+    "storeId": "1",
+    "name": "Learning Express",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 30.3894341,
+    "lng": -97.7427081
+  },
+  {
+    "storeId": "2",
+    "name": "Learning Express",
+    "address": "50 Pearl Street, Essex Junction, VT, 05452",
+    "city": "Essex Junction",
+    "state": "VT",
+    "zip": "05452",
+    "lat": 44.4923748,
+    "lng": -73.1164686
+  },
+  {
+    "storeId": "3",
+    "name": "Learning Express Toys",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "43054",
+    "lat": 40.0817205,
+    "lng": -82.8156577
+  },
+  {
+    "storeId": "4",
+    "name": "Learning Express Toys",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "43085",
+    "lat": 40.1087137,
+    "lng": -83.0194953
+  },
+  {
+    "storeId": "5",
+    "name": "Learning Express",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 35.8370448,
+    "lng": -78.6432085
+  },
+  {
+    "storeId": "6",
+    "name": "Learning Express",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 40.6516505,
+    "lng": -74.3473799
+  },
+  {
+    "storeId": "7",
+    "name": "Learning Express Toys",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 40.6950813,
+    "lng": -80.1017271
+  },
+  {
+    "storeId": "8",
+    "name": "Learning Express",
+    "address": "115 Market Street, Lynnfield, 01940",
+    "city": "Lynnfield",
+    "state": "",
+    "zip": "01940",
+    "lat": 42.5147312,
+    "lng": -71.0326197
+  },
+  {
+    "storeId": "9",
+    "name": "Learning Express Toys",
+    "address": "6828 Snider Plaza, Dallas, TX, 75205",
+    "city": "Dallas",
+    "state": "TX",
+    "zip": "75205",
+    "lat": 32.8489242,
+    "lng": -96.7876675
+  },
+  {
+    "storeId": "10",
+    "name": "Learning Express",
+    "address": "2347 Southeast Federal Highway, Stuart, 34994",
+    "city": "Stuart",
+    "state": "",
+    "zip": "34994",
+    "lat": 27.1774262,
+    "lng": -80.2338684
+  },
+  {
+    "storeId": "11",
+    "name": "Learning Express Toys",
+    "address": "313 Manufacturers Road, Chattanooga, TN, 37405",
+    "city": "Chattanooga",
+    "state": "TN",
+    "zip": "37405",
+    "lat": 35.0629094,
+    "lng": -85.3143598
+  },
+  {
+    "storeId": "12",
+    "name": "Learning Express Toys & Gifts",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 42.3955863,
+    "lng": -71.0798454
+  },
+  {
+    "storeId": "13",
+    "name": "Learning Express Toys",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 42.4904762,
+    "lng": -71.2740166
+  },
+  {
+    "storeId": "14",
+    "name": "Learning Express Toys",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 34.0050906,
+    "lng": -81.200528
+  },
+  {
+    "storeId": "15",
+    "name": "Learning Express",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 37.3574628,
+    "lng": -122.0182876
+  },
+  {
+    "storeId": "16",
+    "name": "Learning Express",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 38.2451519,
+    "lng": -85.520057
+  },
+  {
+    "storeId": "17",
+    "name": "Learning Express",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 35.7362944,
+    "lng": -78.7818674
+  },
+  {
+    "storeId": "18",
+    "name": "Learning Express",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 39.0255062,
+    "lng": -84.5776252
+  },
+  {
+    "storeId": "19",
+    "name": "Learning Express",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 39.6455074,
+    "lng": -84.1538688
+  },
+  {
+    "storeId": "20",
+    "name": "The Learning Express Tuition Centre",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 4.9444683,
+    "lng": 114.9480274
+  },
+  {
+    "storeId": "21",
+    "name": "Learning Express",
+    "address": "1301 Skippack Pike, Blue Bell, PA, 19422",
+    "city": "Blue Bell",
+    "state": "PA",
+    "zip": "19422",
+    "lat": 40.1667978,
+    "lng": -75.2869598
+  },
+  {
+    "storeId": "22",
+    "name": "Learning Express Toys",
+    "address": "1305 West Chester Pike, Havertown, PA, 19083",
+    "city": "Havertown",
+    "state": "PA",
+    "zip": "19083",
+    "lat": 39.9743763,
+    "lng": -75.3218273
+  },
+  {
+    "storeId": "23",
+    "name": "Learning Express Toys",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 30.6393724,
+    "lng": -96.3172097
+  },
+  {
+    "storeId": "24",
+    "name": "Learning Express Toys",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 29.4957442,
+    "lng": -98.4805481
+  },
+  {
+    "storeId": "25",
+    "name": "Learning Express",
+    "address": "8000 Research Forest Drive, The Woodlands, TX, 77382",
+    "city": "The Woodlands",
+    "state": "TX",
+    "zip": "77382",
+    "lat": 30.2099311,
+    "lng": -95.5270403
+  },
+  {
+    "storeId": "26",
+    "name": "Learning Express",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 41.7828836,
+    "lng": -87.8718896
+  },
+  {
+    "storeId": "27",
+    "name": "Learning Express",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 37.763071,
+    "lng": -121.9517623
+  },
+  {
+    "storeId": "28",
+    "name": "Learning Express",
+    "address": "160 Market Street, Collegeville, 19426",
+    "city": "Collegeville",
+    "state": "",
+    "zip": "19426",
+    "lat": 40.1659113,
+    "lng": -75.4806244
+  },
+  {
+    "storeId": "29",
+    "name": "Learning Express Toys",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 38.7428945,
+    "lng": -121.2510746
+  },
+  {
+    "storeId": "30",
+    "name": "Learning Express Toys & Gifts",
+    "address": "1201 Barbara Jordan Boulevard, Austin, TX, 78723",
+    "city": "Austin",
+    "state": "TX",
+    "zip": "78723",
+    "lat": 30.3048401,
+    "lng": -97.7098752
+  },
+  {
+    "storeId": "31",
+    "name": "Learning Express",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 40.9899415,
+    "lng": -73.8072147
+  },
+  {
+    "storeId": "32",
+    "name": "Learning Express",
+    "address": "4800 Whitesburg Drive South, Huntsville, AL, 35802",
+    "city": "Huntsville",
+    "state": "AL",
+    "zip": "35802",
+    "lat": 34.6937871,
+    "lng": -86.5695592
+  },
+  {
+    "storeId": "33",
+    "name": "Learning Express Toys",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "74137",
+    "lat": 36.0301222,
+    "lng": -95.9233784
+  },
+  {
+    "storeId": "34",
+    "name": "Learning Express Toys & Gifts",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 40.7640802,
+    "lng": -73.9645456
+  },
+  {
+    "storeId": "35",
+    "name": "Learning Express Toys & Gifts",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 35.9048876,
+    "lng": -78.6003059
+  },
+  {
+    "storeId": "36",
+    "name": "Learning Express",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 25.6821209,
+    "lng": -80.3136689
+  },
+  {
+    "storeId": "37",
+    "name": "Learning Express Toys",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 41.8931811,
+    "lng": -88.3421629
+  },
+  {
+    "storeId": "38",
+    "name": "Learning Express Toys",
+    "address": "3568 Mount Diablo Boulevard, Lafayette, CA, 94549",
+    "city": "Lafayette",
+    "state": "CA",
+    "zip": "94549",
+    "lat": 37.891961,
+    "lng": -122.120937
+  },
+  {
+    "storeId": "39",
+    "name": "Learning Express",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "lat": 41.3088091,
+    "lng": -81.8186868
+  }
+]

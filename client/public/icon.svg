@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="115" fill="#7c3aed"/>
+
+  <!-- Outer glow ring -->
+  <circle cx="256" cy="248" r="152" fill="#a855f7" opacity="0.4"/>
+
+  <!-- Main squishy ball -->
+  <circle cx="256" cy="248" r="135" fill="#fdf4ff"/>
+
+  <!-- Inner color -->
+  <circle cx="256" cy="248" r="105" fill="#ede9fe"/>
+
+  <!-- Shine highlight -->
+  <ellipse cx="210" cy="195" rx="42" ry="28" fill="white" opacity="0.75" transform="rotate(-35 210 195)"/>
+
+  <!-- Center dot -->
+  <circle cx="256" cy="248" r="42" fill="#7c3aed" opacity="0.85"/>
+  <circle cx="256" cy="248" r="24" fill="#c084fc"/>
+
+  <!-- App name -->
+  <text x="256" y="446" text-anchor="middle"
+    font-family="system-ui, -apple-system, sans-serif"
+    font-size="58" font-weight="800" letter-spacing="-1"
+    fill="white" opacity="0.95">SQUISHY</text>
+</svg>

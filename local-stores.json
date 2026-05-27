@@ -1,0 +1,13 @@
+[
+  {
+    "storeId": "local-1",
+    "name": "Rock Paper Scissors",
+    "address": "317 Main St Ste 110, Franklin, TN 37064",
+    "city": "Franklin",
+    "state": "TN",
+    "zip": "37064",
+    "lat": 35.9246998,
+    "lng": -86.8696750,
+    "storeUrl": "https://rockpaperscissor.com"
+  }
+]

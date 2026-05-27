@@ -1,0 +1,16 @@
+.env
+node_modules/
+.DS_Store
+_PERMISSIONS.txt
+
+# Claude Code local settings
+.claude/
+
+# Design files
+*.psd
+*.ai
+*.sketch
+
+# One-off build scripts (not needed at runtime)
+build-fivebelow-db.js
+build-store-db.js
