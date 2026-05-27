@@ -594,7 +594,7 @@ app.delete("/api/push/subscribe", async (req, res) => {
 
 // ── Start ────────────────────────────────────────────────────────────────────
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`
 ╔══════════════════════════════════════╗
 ║  SquishFinder API                    ║
