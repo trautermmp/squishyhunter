@@ -60,7 +60,7 @@ const ALLOWED_ORIGINS = [
   'http://localhost:4173',
   'https://squishyhunter.com',
   'https://www.squishyhunter.com',
-  // Vercel preview URLs
+  'https://squishyhunter.vercel.app',
   /^https:\/\/squishyhunter.*\.vercel\.app$/,
 ];
 app.use(cors({
