@@ -29,6 +29,8 @@
  *   Non-expired community reports near a location.
  */
 
+process.on('uncaughtException', (err) => { console.error('CRASH:', err.message, err.stack); process.exit(1); });
+process.on('unhandledRejection', (r) => { console.error('REJECTION:', r); });
 require("dotenv").config();
 const express   = require("express");
 const cors      = require("cors");
