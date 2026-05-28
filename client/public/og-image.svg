@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#18181b"/>
+
+  <!-- Scope reticle centered at (600, 255) -->
+  <circle cx="600" cy="255" r="175" fill="none" stroke="#f472b6" stroke-width="13"/>
+  <circle cx="600" cy="255" r="74" fill="none" stroke="#f472b6" stroke-width="10"/>
+  <line x1="600" y1="80" x2="600" y2="181" stroke="#f472b6" stroke-width="13" stroke-linecap="round"/>
+  <line x1="600" y1="329" x2="600" y2="430" stroke="#f472b6" stroke-width="13" stroke-linecap="round"/>
+  <line x1="425" y1="255" x2="526" y2="255" stroke="#f472b6" stroke-width="13" stroke-linecap="round"/>
+  <line x1="674" y1="255" x2="775" y2="255" stroke="#f472b6" stroke-width="13" stroke-linecap="round"/>
+  <circle cx="600" cy="255" r="29" fill="#f472b6"/>
+
+  <!-- SQUISHY HUNTER wordmark -->
+  <text x="600" y="555"
+    text-anchor="middle"
+    font-family="'Bebas Neue', Impact, sans-serif"
+    font-size="96"
+    letter-spacing="14"
+    fill="white">SQUISHY HUNTER</text>
+</svg>
