@@ -30,7 +30,7 @@ self.addEventListener('fetch', event => {
 self.addEventListener('push', function (event) {
   const data = event.data?.json() || {};
   event.waitUntil(
-    self.registration.showNotification(data.title || '🧸 New Sighting!', {
+    self.registration.showNotification(data.title || 'New Sighting!', {
       body:     data.body || 'Someone spotted squishies nearby.',
       icon:     '/pwa-192x192.png',
       badge:    '/pwa-64x64.png',

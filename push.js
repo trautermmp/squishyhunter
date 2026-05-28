@@ -30,7 +30,7 @@ async function sendPushForReport(report) {
   if (!subs?.length) return;
 
   const payload = JSON.stringify({
-    title: `🧸 ${report.status === 'in_stock' ? 'In Stock' : 'Sighting'} at ${report.store_name}`,
+    title: `${report.status === 'in_stock' ? 'In Stock' : 'Sighting'} at ${report.store_name}`,
     body:  `${(report.product_id || '').replace(/-/g, ' ')} spotted${report.qty ? ` — ${report.qty} seen` : ''}`,
   });
 
