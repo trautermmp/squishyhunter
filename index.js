@@ -574,7 +574,7 @@ app.get("/api/places/autocomplete", placesLimiter, async (req, res) => {
 
   try {
     const { lat, lng } = req.query;
-    const locationBias = lat && lng ? `&location=${lat},${lng}&radius=50000` : '';
+    const locationBias = lat && lng ? `&location=${lat},${lng}&radius=160000&strictbounds=true` : '';
     const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(q)}&types=establishment${locationBias}&key=${process.env.GOOGLE_PLACES_KEY}`;
     const r    = await fetch(url);
     const data = await r.json();
