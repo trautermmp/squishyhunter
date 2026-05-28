@@ -43,6 +43,7 @@ export default function App() {
   const savedLocation = useRef(location);
   const [locating,  setLocating]  = useState(false);
   const [filters,   setFilters]   = useState({ chain: null, productId: null });
+  const [radius,    setRadius]    = useState(25);
   const [toasts,    setToasts]    = useState([]);
 
   const [selectedStore, setSelectedStore] = useState(null);
@@ -54,11 +55,11 @@ export default function App() {
     Object.fromEntries(products.map(p => [p.id, p])), [products]
   );
 
-  const fetchReports = useCallback(async (loc) => {
+  const fetchReports = useCallback(async (loc, r) => {
     setLoading(true);
     setError(null);
     try {
-      const data = await getReports(loc ? { lat: loc.lat, lng: loc.lng } : {});
+      const data = await getReports(loc ? { lat: loc.lat, lng: loc.lng, radius: r } : {});
       setReports(data.reports || []);
     } catch (e) {
       setError(e.message);
@@ -67,17 +68,17 @@ export default function App() {
     }
   }, []);
 
-  const fetchCommunityStores = useCallback(async (loc) => {
+  const fetchCommunityStores = useCallback(async (loc, r) => {
     try {
-      const data = await getSubmittedStores(loc ? { lat: loc.lat, lng: loc.lng } : {});
+      const data = await getSubmittedStores(loc ? { lat: loc.lat, lng: loc.lng, radius: r } : {});
       setCommunityStores(data.stores || []);
     } catch { /* non-critical */ }
   }, []);
 
   useEffect(() => {
     const loc = savedLocation.current;
-    fetchReports(loc);
-    fetchCommunityStores(loc);
+    fetchReports(loc, 25);
+    fetchCommunityStores(loc, 25);
     getProducts().then(d => setProducts(d.products || [])).catch(() => {});
   }, [fetchReports, fetchCommunityStores]);
 
@@ -106,8 +107,8 @@ export default function App() {
         setLocation(loc);
         localStorage.setItem('sh-location', JSON.stringify(loc));
         setLocating(false);
-        fetchReports(loc);
-        fetchCommunityStores(loc);
+        fetchReports(loc, radius);
+        fetchCommunityStores(loc, radius);
       },
       () => setLocating(false)
     );
@@ -118,8 +119,14 @@ export default function App() {
     const full = { ...loc, label };
     setLocation(full);
     localStorage.setItem('sh-location', JSON.stringify(full));
-    fetchReports(full);
-    fetchCommunityStores(full);
+    fetchReports(full, radius);
+    fetchCommunityStores(full, radius);
+  }
+
+  function handleRadiusChange(r) {
+    setRadius(r);
+    fetchReports(location, r);
+    fetchCommunityStores(location, r);
   }
 
   function clearLocation() {
@@ -198,7 +205,7 @@ export default function App() {
         </div>
 
         <div className="max-w-lg mx-auto px-4 pb-3">
-          <SearchBar location={location} locating={locating} onLocation={handleLocation} onClear={clearLocation} />
+          <SearchBar location={location} locating={locating} radius={radius} onLocation={handleLocation} onClear={clearLocation} onRadiusChange={handleRadiusChange} />
         </div>
       </header>
 
@@ -209,6 +216,7 @@ export default function App() {
         <div className={`absolute inset-0 ${tab === 'map' ? 'block' : 'hidden'}`}>
           <MapView
             location={location}
+            radius={radius}
             reports={reports}
             communityStores={communityStores}
             onStoreSelect={setSelectedStore}

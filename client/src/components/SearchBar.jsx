@@ -18,7 +18,7 @@ function GpsIcon() {
   );
 }
 
-export default function SearchBar({ location, locating, onLocation, onClear }) {
+export default function SearchBar({ location, locating, radius, onLocation, onClear, onRadiusChange }) {
   const [zip,     setZip]     = useState('');
   const [loading, setLoading] = useState(false);
   const [error,   setError]   = useState(null);
@@ -43,11 +43,24 @@ export default function SearchBar({ location, locating, onLocation, onClear }) {
   if (location) {
     return (
       <div className="flex items-center gap-2">
-        <div className="flex items-center gap-1.5 bg-zinc-800 border border-zinc-700 text-pink-400 text-xs font-medium px-3 py-1.5 rounded-full">
+        <div className="flex items-center gap-1.5 bg-zinc-800 border border-zinc-700 text-pink-400 text-xs font-medium px-3 py-1.5 rounded-full flex-1 min-w-0">
           <span className="w-1.5 h-1.5 bg-pink-400 rounded-full shrink-0" />
-          {location.label} · 25 mi
+          <span className="truncate">{location.label}</span>
         </div>
-        <button onClick={onClear} className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors">
+        <div className="flex rounded-lg overflow-hidden border border-zinc-700 shrink-0">
+          {[10, 25, 50].map(r => (
+            <button
+              key={r}
+              type="button"
+              onClick={() => onRadiusChange(r)}
+              className={`text-xs font-medium px-2.5 py-1.5 transition-colors
+                ${radius === r ? 'bg-pink-400 text-zinc-900' : 'bg-zinc-800 text-zinc-400 hover:text-zinc-200'}`}
+            >
+              {r}mi
+            </button>
+          ))}
+        </div>
+        <button onClick={onClear} className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors shrink-0">
           Clear
         </button>
       </div>

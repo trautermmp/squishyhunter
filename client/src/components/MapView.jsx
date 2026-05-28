@@ -68,18 +68,18 @@ function storeStatus(storeId, reports) {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export default function MapView({ location, reports, communityStores, onStoreSelect }) {
+export default function MapView({ location, radius = 25, reports, communityStores, onStoreSelect }) {
   const [stores,  setStores]  = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!location) return;
     setLoading(true);
-    getStores({ lat: location.lat, lng: location.lng, radius: 25 })
+    getStores({ lat: location.lat, lng: location.lng, radius })
       .then(d => setStores(d.stores || []))
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, [location]);
+  }, [location, radius]);
 
   const allStores = [...stores, ...(communityStores || [])];
 
