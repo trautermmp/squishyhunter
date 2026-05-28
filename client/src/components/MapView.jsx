@@ -23,9 +23,10 @@ const STATUS_COLOR = {
 // ── Custom pin factory ────────────────────────────────────────────────────────
 
 function makePin(chain, status, community = false, name = '') {
-  const { color, label } = CHAIN[chain] || { color: '#262626', label: name.charAt(0).toUpperCase() || '?' };
-  const border = community ? `3px dashed ${color}` : '3px solid white';
-  const dot = status
+  const cfg   = CHAIN[chain] || { color: '#262626', label: name.charAt(0).toUpperCase() || '?' };
+  const bg    = community ? '#262626' : cfg.color;
+  const label = community ? (name.charAt(0).toUpperCase() || '?') : cfg.label;
+  const dot   = status
     ? `<div style="position:absolute;bottom:-3px;right:-3px;width:12px;height:12px;
          border-radius:50%;background:${STATUS_COLOR[status]};border:2px solid white;"></div>`
     : '';
@@ -34,11 +35,11 @@ function makePin(chain, status, community = false, name = '') {
     className: '',
     html: `<div style="
       position:relative;width:34px;height:34px;border-radius:50%;
-      background:${community ? 'white' : color};color:${community ? color : 'white'};
-      border:${border};
+      background:${bg};color:white;
+      border:3px solid white;
       box-shadow:0 2px 8px rgba(0,0,0,0.35);
       display:flex;align-items:center;justify-content:center;
-      color:white;font-weight:700;font-size:11px;font-family:system-ui,sans-serif;
+      font-weight:700;font-size:11px;font-family:system-ui,sans-serif;
     ">${label}${dot}</div>`,
     iconSize: [34, 34],
     iconAnchor: [17, 17],
