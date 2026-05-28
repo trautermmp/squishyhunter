@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY;
+const API_BASE = import.meta.env.VITE_API_URL || '';
 
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
@@ -42,7 +43,7 @@ export default function usePush({ location }) {
         applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
       });
 
-      await fetch('/api/push/subscribe', {
+      await fetch(`${API_BASE}/api/push/subscribe`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -67,7 +68,7 @@ export default function usePush({ location }) {
       const reg = await navigator.serviceWorker.ready;
       const sub = await reg.pushManager.getSubscription();
       if (sub) {
-        await fetch('/api/push/subscribe', {
+        await fetch(`${API_BASE}/api/push/subscribe`, {
           method:  'DELETE',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ endpoint: sub.endpoint }),
