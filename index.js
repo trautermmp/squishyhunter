@@ -563,6 +563,61 @@ app.get("/api/stores/submitted", async (req, res) => {
   res.json({ stores });
 });
 
+// ── Places autocomplete routes ───────────────────────────────────────────────
+
+const placesLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 60, standardHeaders: true, legacyHeaders: false });
+
+app.get("/api/places/autocomplete", placesLimiter, async (req, res) => {
+  const { q } = req.query;
+  if (!q || !q.trim()) return res.json({ suggestions: [] });
+  if (!process.env.GOOGLE_PLACES_KEY) return res.json({ suggestions: [] });
+
+  try {
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(q)}&types=establishment&key=${process.env.GOOGLE_PLACES_KEY}`;
+    const r    = await fetch(url);
+    const data = await r.json();
+    const suggestions = (data.predictions || []).slice(0, 5).map(p => ({
+      placeId:     p.place_id,
+      name:        p.structured_formatting?.main_text || p.description,
+      description: p.description,
+    }));
+    res.json({ suggestions });
+  } catch (err) {
+    console.error("[places/autocomplete]", err.message);
+    res.json({ suggestions: [] });
+  }
+});
+
+app.get("/api/places/details", placesLimiter, async (req, res) => {
+  const { placeId } = req.query;
+  if (!placeId) return res.status(400).json({ error: "placeId required" });
+  if (!process.env.GOOGLE_PLACES_KEY) return res.status(503).json({ error: "Places not configured" });
+
+  try {
+    const url  = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${encodeURIComponent(placeId)}&fields=name,address_components,geometry&key=${process.env.GOOGLE_PLACES_KEY}`;
+    const r    = await fetch(url);
+    const data = await r.json();
+    const result = data.result;
+    if (!result) return res.status(404).json({ error: "Place not found" });
+
+    const get      = type => (result.address_components || []).find(c => c.types.includes(type))?.long_name  || '';
+    const getShort = type => (result.address_components || []).find(c => c.types.includes(type))?.short_name || '';
+
+    res.json({
+      name:    result.name,
+      address: `${get('street_number')} ${get('route')}`.trim(),
+      city:    get('locality') || get('sublocality') || get('neighborhood'),
+      state:   getShort('administrative_area_level_1'),
+      zip:     get('postal_code'),
+      lat:     result.geometry?.location?.lat ?? null,
+      lng:     result.geometry?.location?.lng ?? null,
+    });
+  } catch (err) {
+    console.error("[places/details]", err.message);
+    res.status(500).json({ error: "Failed to fetch place details" });
+  }
+});
+
 // ── Push subscription routes ─────────────────────────────────────────────────
 
 const pushLimiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 5, standardHeaders: true, legacyHeaders: false });

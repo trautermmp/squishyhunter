@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { geocodeZip } from '../api';
+import { useState, useRef } from 'react';
+import { geocodeZip, searchPlaces, getPlaceDetails } from '../api';
 
 const API_BASE = import.meta.env.VITE_API_URL || '';
 
@@ -15,11 +15,49 @@ const inputCls = 'w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm f
 const labelCls = 'block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5';
 
 export default function AddStoreModal({ onClose, onAdded }) {
-  const [form, setForm] = useState({ name: '', chain: 'other', address: '', city: '', state: '', zip: '', website: '' });
-  const [submitting, setSubmitting] = useState(false);
-  const [error,      setError]      = useState(null);
+  const [form, setForm] = useState({ name: '', chain: 'other', address: '', city: '', state: '', zip: '', website: '', lat: null, lng: null });
+  const [submitting,   setSubmitting]   = useState(false);
+  const [error,        setError]        = useState(null);
+  const [suggestions,  setSuggestions]  = useState([]);
+  const [searching,    setSearching]    = useState(false);
+  const debounceRef = useRef(null);
 
   function set(field, value) { setForm(f => ({ ...f, [field]: value })); }
+
+  function handleNameChange(e) {
+    const value = e.target.value;
+    set('name', value);
+    setSuggestions([]);
+    clearTimeout(debounceRef.current);
+    if (value.trim().length < 2) return;
+    debounceRef.current = setTimeout(async () => {
+      setSearching(true);
+      try {
+        const data = await searchPlaces(value.trim());
+        setSuggestions(data.suggestions || []);
+      } catch { /* ignore */ } finally {
+        setSearching(false);
+      }
+    }, 350);
+  }
+
+  async function selectSuggestion(suggestion) {
+    setSuggestions([]);
+    set('name', suggestion.name);
+    try {
+      const details = await getPlaceDetails(suggestion.placeId);
+      setForm(f => ({
+        ...f,
+        name:    details.name    || suggestion.name,
+        address: details.address || '',
+        city:    details.city    || '',
+        state:   details.state   || '',
+        zip:     details.zip     || '',
+        lat:     details.lat     ?? null,
+        lng:     details.lng     ?? null,
+      }));
+    } catch { /* leave fields as-is if details fail */ }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -29,8 +67,8 @@ export default function AddStoreModal({ onClose, onAdded }) {
 
     setSubmitting(true);
     try {
-      let lat = null, lng = null;
-      if (form.zip.trim()) {
+      let lat = form.lat, lng = form.lng;
+      if ((lat === null || lng === null) && form.zip.trim()) {
         try {
           const loc = await geocodeZip(form.zip.trim());
           lat = loc.lat; lng = loc.lng;
@@ -45,8 +83,8 @@ export default function AddStoreModal({ onClose, onAdded }) {
           chain:   form.chain,
           address: form.address.trim() || null,
           city:    form.city.trim()    || null,
-          state:   form.state.trim()  || null,
-          zip:     form.zip.trim()    || null,
+          state:   form.state.trim()   || null,
+          zip:     form.zip.trim()     || null,
           website: form.website.trim() || null,
           lat, lng,
         }),
@@ -79,13 +117,36 @@ export default function AddStoreModal({ onClose, onAdded }) {
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-5">
-          <div>
+
+          {/* Store Name with autocomplete */}
+          <div className="relative">
             <label className={labelCls}>Store Name *</label>
             <input
-              type="text" required maxLength={100} placeholder="e.g. Kidville Toys"
+              type="text" required maxLength={100} placeholder="e.g. Target, Kidville Toys…"
               className={inputCls}
-              value={form.name} onChange={e => set('name', e.target.value)}
+              value={form.name}
+              onChange={handleNameChange}
+              onBlur={() => setTimeout(() => setSuggestions([]), 150)}
+              autoComplete="off"
             />
+            {(suggestions.length > 0 || searching) && (
+              <div className="absolute left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden">
+                {searching && suggestions.length === 0 && (
+                  <div className="px-3 py-2.5 text-xs text-gray-400">Searching…</div>
+                )}
+                {suggestions.map(s => (
+                  <button
+                    key={s.placeId}
+                    type="button"
+                    onMouseDown={() => selectSuggestion(s)}
+                    className="w-full text-left px-3 py-2.5 hover:bg-gray-50 border-b border-gray-100 last:border-0 transition-colors"
+                  >
+                    <p className="text-sm font-medium text-gray-800">{s.name}</p>
+                    <p className="text-xs text-gray-400 truncate">{s.description}</p>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div>

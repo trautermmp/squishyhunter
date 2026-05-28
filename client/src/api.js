@@ -62,6 +62,18 @@ export async function submitStore(data) {
   }).catch(() => {});
 }
 
+export async function searchPlaces(query) {
+  const res = await fetch(`${BASE}/api/places/autocomplete?q=${encodeURIComponent(query)}`);
+  if (!res.ok) return { suggestions: [] };
+  return res.json();
+}
+
+export async function getPlaceDetails(placeId) {
+  const res = await fetch(`${BASE}/api/places/details?placeId=${encodeURIComponent(placeId)}`);
+  if (!res.ok) throw new Error('Failed to get place details');
+  return res.json();
+}
+
 export async function geocodeZip(zip) {
   const url = `https://nominatim.openstreetmap.org/search?postalcode=${encodeURIComponent(zip)}&country=US&format=json&limit=1`;
   const res = await fetch(url, { headers: { 'User-Agent': 'SquishyHunter/1.0' } });
