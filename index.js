@@ -573,7 +573,9 @@ app.get("/api/places/autocomplete", placesLimiter, async (req, res) => {
   if (!process.env.GOOGLE_PLACES_KEY) return res.json({ suggestions: [] });
 
   try {
-    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(q)}&types=establishment&key=${process.env.GOOGLE_PLACES_KEY}`;
+    const { lat, lng } = req.query;
+    const locationBias = lat && lng ? `&location=${lat},${lng}&radius=50000` : '';
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(q)}&types=establishment${locationBias}&key=${process.env.GOOGLE_PLACES_KEY}`;
     const r    = await fetch(url);
     const data = await r.json();
     const suggestions = (data.predictions || []).slice(0, 5).map(p => ({

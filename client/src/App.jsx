@@ -328,6 +328,7 @@ export default function App() {
       )}
       {showAddStore && (
         <AddStoreModal
+          location={location}
           onClose={() => setShowAddStore(false)}
           onAdded={handleStoreAdded}
         />

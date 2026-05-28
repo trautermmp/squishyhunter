@@ -62,8 +62,9 @@ export async function submitStore(data) {
   }).catch(() => {});
 }
 
-export async function searchPlaces(query) {
-  const res = await fetch(`${BASE}/api/places/autocomplete?q=${encodeURIComponent(query)}`);
+export async function searchPlaces(query, location = null) {
+  const coords = location ? `&lat=${location.lat}&lng=${location.lng}` : '';
+  const res = await fetch(`${BASE}/api/places/autocomplete?q=${encodeURIComponent(query)}${coords}`);
   if (!res.ok) return { suggestions: [] };
   return res.json();
 }

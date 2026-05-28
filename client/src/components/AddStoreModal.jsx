@@ -14,7 +14,7 @@ const CHAINS = [
 const inputCls = 'w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-400 bg-white';
 const labelCls = 'block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5';
 
-export default function AddStoreModal({ onClose, onAdded }) {
+export default function AddStoreModal({ location, onClose, onAdded }) {
   const [form, setForm] = useState({ name: '', chain: 'other', address: '', city: '', state: '', zip: '', website: '', lat: null, lng: null });
   const [submitting,   setSubmitting]   = useState(false);
   const [error,        setError]        = useState(null);
@@ -33,7 +33,7 @@ export default function AddStoreModal({ onClose, onAdded }) {
     debounceRef.current = setTimeout(async () => {
       setSearching(true);
       try {
-        const data = await searchPlaces(value.trim());
+        const data = await searchPlaces(value.trim(), location);
         setSuggestions(data.suggestions || []);
       } catch { /* ignore */ } finally {
         setSearching(false);
