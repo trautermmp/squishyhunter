@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { geocodeZip } from '../api';
 
+const API_BASE = import.meta.env.VITE_API_URL || '';
+
 const CHAINS = [
   { id: 'target',          label: 'Target' },
   { id: 'walmart',         label: 'Walmart' },
@@ -35,7 +37,7 @@ export default function AddStoreModal({ onClose, onAdded }) {
         } catch { /* geocode failed — still submit without coords */ }
       }
 
-      const res = await fetch('/api/stores/submit', {
+      const res = await fetch(`${API_BASE}/api/stores/submit`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -128,7 +130,7 @@ export default function AddStoreModal({ onClose, onAdded }) {
 
           <div>
             <label className={labelCls}>Website (optional)</label>
-            <input type="url" maxLength={300} placeholder="https://…"
+            <input type="text" maxLength={300} placeholder="https://…"
               className={inputCls}
               value={form.website} onChange={e => set('website', e.target.value)}
             />
