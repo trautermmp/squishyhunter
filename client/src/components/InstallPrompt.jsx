@@ -41,7 +41,7 @@ export default function InstallPrompt() {
 
   return (
     <div className="fixed bottom-16 left-0 right-0 z-[2000] px-4 pb-2 max-w-lg mx-auto">
-      <div className="bg-white rounded-2xl shadow-xl border border-purple-100 p-4 flex items-start gap-3">
+      <div className="bg-white rounded-2xl shadow-xl border border-pink-100 p-4 flex items-start gap-3">
         <img src="/pwa-192x192.png" alt="" className="w-12 h-12 rounded-xl shrink-0" />
 
         <div className="flex-1 min-w-0">
@@ -61,7 +61,7 @@ export default function InstallPrompt() {
           {!showIos && (
             <button
               onClick={install}
-              className="bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
+              className="bg-pink-400 hover:bg-pink-300 text-zinc-900 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
             >
               Install
             </button>

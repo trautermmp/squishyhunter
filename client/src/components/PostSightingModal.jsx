@@ -270,7 +270,7 @@ export default function PostSightingModal({ location, preselectedStore, onClose,
                             className={`text-xs px-2.5 py-1 rounded-full border transition-colors
                               ${form.customProductName === s.name
                                 ? 'bg-pink-400 text-zinc-900 border-pink-400'
-                                : 'bg-white text-gray-600 border-gray-200 hover:border-indigo-300 hover:text-indigo-600'}`}
+                                : 'bg-white text-gray-600 border-gray-200 hover:border-pink-300 hover:text-pink-600'}`}
                           >
                             {s.name}
                             {s.count > 1 && <span className="ml-1 opacity-60">×{s.count}</span>}
