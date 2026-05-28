@@ -173,7 +173,7 @@ export default function App() {
       <ToastStack toasts={toasts} onDismiss={id => setToasts(prev => prev.filter(t => t.id !== id))} />
 
       {/* Header */}
-      <header className="bg-zinc-900 shrink-0 z-50">
+      <header className="bg-zinc-900 shrink-0 z-50" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
         <div className="max-w-lg mx-auto px-4 py-3 flex items-center justify-between gap-2">
           {/* Logo */}
           <div className="flex items-center gap-2 min-w-0">
@@ -283,7 +283,7 @@ export default function App() {
       </main>
 
       {/* Bottom nav */}
-      <nav className="bg-zinc-900 shrink-0 z-50">
+      <nav className="bg-zinc-900 shrink-0 z-50" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
         <div className="max-w-lg mx-auto flex">
           {[
             { id: 'map',  label: 'Map',  Icon: MapIcon },
