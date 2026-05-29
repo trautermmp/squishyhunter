@@ -114,6 +114,15 @@ export default function SightingCard({ report, product, onConfirmed }) {
         </div>
       </div>
 
+      {/* Photo */}
+      {report.imageUrl && (
+        <img
+          src={report.imageUrl}
+          alt="Sighting photo"
+          className="w-full max-h-52 object-cover rounded-lg border border-gray-100"
+        />
+      )}
+
       {/* Note */}
       {report.note && (
         <p className="text-xs text-gray-500 bg-gray-50 rounded-lg px-3 py-2 italic leading-relaxed">

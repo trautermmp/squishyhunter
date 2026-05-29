@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { getStores, getProducts, getProductSuggestions, postReport, submitStore } from '../api';
+import { useState, useEffect, useRef } from 'react';
+import { getStores, getProducts, getProductSuggestions, postReport, submitStore, uploadSightingImage } from '../api';
 
 const CHAIN_LABEL = {
   target:          'Target',
@@ -26,6 +26,9 @@ export default function PostSightingModal({ location, preselectedStore, onClose,
   const [loading,     setLoading]     = useState(!preselectedStore);
   const [submitting,  setSubmitting]  = useState(false);
   const [error,       setError]       = useState(null);
+  const [image,       setImage]       = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const fileInputRef = useRef(null);
 
   const [form, setForm] = useState({
     storeIndex:        '',
@@ -73,6 +76,19 @@ export default function PostSightingModal({ location, preselectedStore, onClose,
 
   function set(field, value) {
     setForm(f => ({ ...f, [field]: value }));
+  }
+
+  function handleImageSelect(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImage(file);
+    setImagePreview(URL.createObjectURL(file));
+  }
+
+  function removeImage() {
+    setImage(null);
+    setImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   }
 
   async function handleSubmit(e) {
@@ -124,6 +140,11 @@ export default function PostSightingModal({ location, preselectedStore, onClose,
 
     setSubmitting(true);
     try {
+      if (image) {
+        try {
+          body.imageUrl = await uploadSightingImage(image);
+        } catch { /* non-fatal — post without image if upload fails */ }
+      }
       const data = await postReport(body);
 
       // Auto-submit unlisted store for future map inclusion
@@ -332,6 +353,46 @@ export default function PostSightingModal({ location, preselectedStore, onClose,
                 value={form.note}
                 onChange={e => set('note', e.target.value)}
               />
+            </div>
+
+            {/* ── Photo ── */}
+            <div>
+              <label className={labelCls}>Photo (optional)</label>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageSelect}
+              />
+              {imagePreview ? (
+                <div className="relative">
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="w-full max-h-48 object-cover rounded-xl border border-gray-200"
+                  />
+                  <button
+                    type="button"
+                    onClick={removeImage}
+                    className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/50 text-white flex items-center justify-center text-sm leading-none"
+                  >
+                    ×
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full border-2 border-dashed border-gray-200 rounded-xl py-4 text-sm text-gray-400 hover:border-pink-300 hover:text-pink-500 transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  Take or choose a photo
+                </button>
+              )}
             </div>
 
             {error && (

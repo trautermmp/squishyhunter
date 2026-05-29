@@ -62,6 +62,15 @@ export async function submitStore(data) {
   }).catch(() => {});
 }
 
+export async function uploadSightingImage(file) {
+  const formData = new FormData();
+  formData.append('image', file);
+  const res = await fetch(`${BASE}/api/reports/image`, { method: 'POST', body: formData });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Upload failed');
+  return data.imageUrl;
+}
+
 export async function searchPlaces(query, location = null) {
   const coords = location ? `&lat=${location.lat}&lng=${location.lng}` : '';
   const res = await fetch(`${BASE}/api/places/autocomplete?q=${encodeURIComponent(query)}${coords}`);

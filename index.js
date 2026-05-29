@@ -39,6 +39,7 @@ const helmet    = require("helmet");
 const rateLimit = require("express-rate-limit");
 const crypto    = require("crypto");
 
+const multer          = require("multer");
 const target          = require("./target");
 const walmart         = require("./walmart");
 const fivebelow       = require("./fivebelow");
@@ -50,6 +51,15 @@ const { sendPushForReport } = require("./push");
 
 const app  = express();
 const PORT = process.env.PORT || 3001;
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits:  { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  fileFilter: (_req, file, cb) => {
+    if (!file.mimetype.startsWith('image/')) return cb(new Error('Images only'));
+    cb(null, true);
+  },
+});
 
 // ── Security middleware ──────────────────────────────────────────────────────
 
@@ -201,6 +211,7 @@ function dbRowToReport(row) {
     qty:               row.qty,
     status:            row.status,
     note:              row.note,
+    imageUrl:          row.image_url ?? null,
     reportedAt:        row.reported_at,
     expiresAt:         row.expires_at,
     confirmedBy:       row.confirmed_by,
@@ -327,6 +338,28 @@ app.get("/api/stores/learningexpress", (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+// ── Image upload ─────────────────────────────────────────────────────────────
+
+app.post("/api/reports/image", reportLimiter, upload.single("image"), async (req, res) => {
+  if (!req.file) return res.status(400).json({ error: "No image provided" });
+  if (!supabase) return res.status(503).json({ error: "Storage not configured" });
+
+  const ext      = req.file.mimetype === "image/png" ? "png" : "jpg";
+  const filename = `${Date.now()}-${crypto.randomBytes(6).toString("hex")}.${ext}`;
+
+  const { error } = await supabase.storage
+    .from("sighting-images")
+    .upload(filename, req.file.buffer, { contentType: req.file.mimetype, upsert: false });
+
+  if (error) {
+    console.error("[image upload]", error.message);
+    return res.status(500).json({ error: "Upload failed" });
+  }
+
+  const { data: { publicUrl } } = supabase.storage.from("sighting-images").getPublicUrl(filename);
+  res.json({ imageUrl: publicUrl });
+});
+
 // ── Community report routes ───────────────────────────────────────────────────
 
 /**
@@ -345,7 +378,7 @@ app.get("/api/stores/learningexpress", (req, res) => {
  *   deviceId   string — anonymous device ID, stored only as a one-way hash
  */
 app.post("/api/reports", reportLimiter, async (req, res) => {
-  const { storeId, storeName, chain, lat, lng, productId, customProductName, qty, status, note, deviceId } = req.body;
+  const { storeId, storeName, chain, lat, lng, productId, customProductName, qty, status, note, imageUrl, deviceId } = req.body;
 
   if (!storeId || !productId || qty === undefined) {
     return res.status(400).json({ error: "storeId, productId, and qty are required" });
@@ -379,6 +412,7 @@ app.post("/api/reports", reportLimiter, async (req, res) => {
     qty:                 parsedQty,
     status:              parsedStatus,
     note:                sanitizeText(note, 280),
+    image_url:           typeof imageUrl === 'string' && imageUrl.startsWith('https://') ? imageUrl : null,
     device_id:    hashDeviceId(deviceId),
     reported_at:  new Date().toISOString(),
     expires_at:   new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
