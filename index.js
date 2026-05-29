@@ -381,7 +381,7 @@ app.post("/api/reports", reportLimiter, async (req, res) => {
     note:                sanitizeText(note, 280),
     device_id:    hashDeviceId(deviceId),
     reported_at:  new Date().toISOString(),
-    expires_at:   new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString(),
+    expires_at:   new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
     confirmed_by: 0,
   };
 
@@ -419,7 +419,7 @@ app.post("/api/reports/:id/confirm", confirmLimiter, async (req, res) => {
     if (fetchErr || !existing) return res.status(404).json({ error: "Report not found" });
     if (new Date(existing.expires_at) < new Date()) return res.status(410).json({ error: "Report has expired" });
 
-    const maxExpiry = Date.now() + 12 * 60 * 60 * 1000;
+    const maxExpiry = Date.now() + 48 * 60 * 60 * 1000;
     const newExpiry = Math.min(new Date(existing.expires_at).getTime() + 60 * 60 * 1000, maxExpiry);
 
     const { data, error } = await supabase
